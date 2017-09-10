@@ -9,7 +9,7 @@
         xmlns:local="clr-namespace:SgzCodeEditor"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:ignore="http://www.galasoft.ch/ignore"
-        xmlns:controls="clr-namespace:SugzTools.Controls;assembly=SugzTools"
+        xmlns:sgz="clr-namespace:SugzTools.Controls;assembly=SugzTools"
         mc:Ignorable="d ignore"
         Height="720"
         Width="1280"
@@ -20,10 +20,9 @@
 
     <Window.Resources>
         <sgzconv:InvertBooleanConverter x:Key="InvertBool" />
-        <Style x:Key="WindowStyle"
-               TargetType="{x:Type local:MainWindow}">
-            <Setter Property="Background"
-                    Value="{DynamicResource ToolbarBackground}" />
+        
+        <Style x:Key="WindowStyle" TargetType="{x:Type local:MainWindow}">
+            <Setter Property="Background" Value="{DynamicResource ToolbarBackground}" />
             <Setter Property="shell:WindowChrome.WindowChrome">
                 <Setter.Value>
                     <shell:WindowChrome GlassFrameThickness="-1"
@@ -34,6 +33,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        
     </Window.Resources>
 
     <DockPanel x:Name="backgroundPanel"
@@ -56,7 +56,7 @@
                     <MenuItem Header="Recent Folders" />
                     <Separator />
                     <MenuItem Header="Exit"
-                              Click="minimizeWindowBtn_Click" />
+                              Click="CloseWindow"/>
                 </MenuItem>
                 <MenuItem Header="Theme">
                     <MenuItem Header="Dark"
@@ -67,43 +67,67 @@
                               IsChecked="{Binding IsDarkTheme, Converter={StaticResource InvertBool}}" />
                 </MenuItem>
             </Menu>
-            <controls:SgzIcon x:Name="closeWindowBtn"
+            <sgz:SgzIcon x:Name="closeWindowBtn"
                               Icon="MdiWindowClose" 
-                              Click="closeWindowBtn_Click"
+                              Click="CloseWindow"
                               Padding="9,8,7,8"
                               Style="{DynamicResource WindowButtonStyle}"/>
-            <controls:SgzIcon x:Name="MaximizeWindowBtn" 
+            <sgz:SgzIcon x:Name="MaximizeWindowBtn" 
                               Icon="MdiWindowMaximize"
-                              Click="MaximizeWindowBtn_Click"
+                              Click="MaximizeWindow"
                               Style="{DynamicResource WindowButtonStyle}" />
-            <controls:SgzIcon x:Name="minimizeWindowBtn"
+            <sgz:SgzIcon x:Name="minimizeWindowBtn"
                               Icon="MdiWindowMinimize"
                               Padding="8,15,8,8"
                               VerticalContentAlignment="Bottom"
-                              Click="minimizeWindowBtn_Click"
+                              Click="MinimizeWindow"
                               Style="{DynamicResource WindowButtonStyle}" />
         </DockPanel>
 
         <!--Toolbar-->
         <StackPanel Height="30"
                     DockPanel.Dock="Top">
-
+            <sgz:SgzButton x:Name="showTvBtn"
+                           Width="30"
+                           Height="30"
+                           IsTransparent="True"
+                           CornerRadius="0"
+                           BorderThickness="0"
+                           HorizontalAlignment="Left"
+                           HoverBrush="{DynamicResource ToolbarMouseHover}">
+                <sgz:SgzIcon Icon="MdiFileTree" 
+                             IsEnabled="False"
+                             Foreground="{DynamicResource MainForeground}"
+                             Width="14"
+                             Height="14"/>
+            </sgz:SgzButton>
+            <!--<sgz:SgzIcon x:Name="showTvBtn"
+                              Icon="MdiFileTree"
+                              Style="{DynamicResource ToolbarButtonStyle}"/>-->
         </StackPanel>
 
         <!--MainGrid-->
-        <Grid>
+        <Grid x:Name="layoutRoot">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="300" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
             <!--Treeview Panel-->
-            <StackPanel Background="{DynamicResource TreeViewBackground}">
+            <StackPanel x:Name="tvsPanel" 
+                        Background="{DynamicResource TreeViewBackground}"
+                        SizeChanged="TvsPanel_SizeChanged">
 
             </StackPanel>
 
+            <!--Editor-->
             <Rectangle Grid.Column="1"
                        Fill="{DynamicResource MainBackground}" />
+
+            <!-- GridSplitter -->
+            <GridSplitter x:Name="gridSplitter"
+                          Grid.Column="0"
+                          Style="{DynamicResource GridSplitterStyle}" />
         </Grid>
     </DockPanel>
 </Window>

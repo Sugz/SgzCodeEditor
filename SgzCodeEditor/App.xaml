@@ -12,7 +12,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Themes/DarkColor.xaml" />
+                <ResourceDictionary x:Name="Colors" Source="/Themes/DarkColor.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <!--Global View Model Locator-->
@@ -219,7 +219,7 @@
                                             <Setter TargetName="Border" Property="BorderThickness" Value="1" />
                                         </MultiTrigger>
                                         <Trigger Property="IsSubmenuOpen" Value="true">
-                                            <Setter TargetName="ArrowPanelPath" Property="Fill" Value="{DynamicResource BackgroundSelected}" />
+                                            <Setter TargetName="ArrowPanelPath" Property="Fill" Value="{DynamicResource MainForeground}" />
                                         </Trigger>
                                         <Trigger Property="IsSuspendingPopupAnimation" Value="true">
                                             <Setter TargetName="SubMenuPopup" Property="PopupAnimation" Value="None" />
@@ -241,16 +241,29 @@
             </Style>
             
             
-            <!--Window Buttons-->
-            <Style x:Key="WindowButtonStyle" TargetType="{x:Type controls:SgzIcon}">
+            <!-- GridSplitterTemplate -->
+            <Style x:Key="GridSplitterStyle" TargetType="{x:Type GridSplitter}">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="Opacity" Value="0" />
+                <Setter Property="HorizontalAlignment" Value="Right" />
+                <Setter Property="Width" Value="6" />
+                <Setter Property="Margin" Value="0,0,-3,0" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type GridSplitter}">
+                            <Border x:Name="Bd" Background="{TemplateBinding Background}" />
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            
+            
+            <!--SgzIcon base style-->
+            <Style x:Key="SgzIconBaseStyle" TargetType="{x:Type controls:SgzIcon}">
                 <Setter Property="Foreground" Value="{DynamicResource MainForeground}"/>
                 <Setter Property="HoverBrush" Value="{DynamicResource MainMax}" />
                 <Setter Property="PressedBrush" Value="{DynamicResource MainMax}" />
-                <Setter Property="Padding" Value="8"/>
-                <Setter Property="Width" Value="30"/>
-                <Setter Property="Height" Value="25" />
                 <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                <Setter Property="DockPanel.Dock" Value="Right"/>
                 <Setter Property="SnapsToDevicePixels" Value="True"/>
                 <Setter Property="UseLayoutRounding" Value="True"/>
                 <Style.Triggers>
@@ -258,6 +271,23 @@
                         <Setter Property="Background" Value="{DynamicResource ToolbarMouseHover}" />
                     </Trigger>
                 </Style.Triggers>
+            </Style>
+            
+            <!--Window Buttons-->
+            <Style x:Key="WindowButtonStyle" TargetType="{x:Type controls:SgzIcon}" BasedOn="{StaticResource SgzIconBaseStyle}">
+                <Setter Property="Padding" Value="8"/>
+                <Setter Property="Width" Value="30"/>
+                <Setter Property="Height" Value="25" />
+                <Setter Property="DockPanel.Dock" Value="Right"/>
+            </Style>
+
+            <!-- Toolbar Button Style-->
+            <Style x:Key="ToolbarButtonStyle" TargetType="{x:Type controls:SgzIcon}" BasedOn="{StaticResource SgzIconBaseStyle}">
+                <Setter Property="Padding" Value="8"/>
+                <Setter Property="Width" Value="30"/>
+                <Setter Property="Height" Value="30" />
+                <Setter Property="DockPanel.Dock" Value="Right"/>
+                <Setter Property="HorizontalAlignment" Value="Left"/>
             </Style>
 
 

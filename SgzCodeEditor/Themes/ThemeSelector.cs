@@ -11,13 +11,11 @@ namespace SgzCodeEditor.Themes
     {
         public static void SetTheme(bool isDark)
         {
-            Application.Current.Resources.MergedDictionaries.Clear();
-
+            ResourceDictionary colors = Application.Current.Resources.MergedDictionaries[0];
             if (isDark)
-                Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("/Themes/DarkColor.xaml", UriKind.Relative) });
+                colors.Source = new Uri("/Themes/DarkColor.xaml", UriKind.Relative);
             else
-                Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("/Themes/LightColor.xaml", UriKind.Relative) });
-
+                colors.Source = new Uri("/Themes/LightColor.xaml", UriKind.Relative);
         }
     }
 }
